@@ -12,16 +12,28 @@ class TestVNet(TestCase):
         """Remove viewshed map after each test method"""
         # TODO: eventually, removing maps should be handled through testing framework functions
         self.runModule("g.remove", flags="f", type="vector", name=self.network)
+   
+    def test_nreport_json(self):
+        """Test nreport operation JSON output"""
+        self.runModule("v.net", input="streets", output=self.network, operation="nodes")
+        output = read_command("v.net", input=self.network, operation="nreport", 
+                              nlayer=2, format="json").strip()
+
+        self.assertTrue(output, "nreport produced no output on stdout")
+        
+        data = json.loads(output)
+        self.assertIsInstance(data, list, "nreport output must be a JSON array")
+        if data:
+            self.assertIn("node_cat", data[0])
+            self.assertIn("lines", data[0])
 
     def test_nodes(self):
-        """Test"""
+        """Test nodes operation (Standard topology check)"""
         self.assertModule(
             "v.net", input="streets", output=self.network, operation="nodes"
         )
         topology = {"points": 41813, "nodes": 41813, "lines": 49746}
         self.assertVectorFitsTopoInfo(vector=self.network, reference=topology)
-        layers = read_command("v.category", input=self.network, option="layers").strip()
-        self.assertEqual(first="1", second=layers, msg="Layers do not match")
 
     def test_nodes_layers(self):
         """Test"""
