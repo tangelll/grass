@@ -5,7 +5,8 @@
 #include "proto.h"
 #include <grass/gjson.h>
 
-int report(struct Map_info *In, int afield, int nfield, int action,const char *format)
+int report(struct Map_info *In, int afield, int nfield, int action,
+            const char *format)
 {
     int i, j, line, nlines, ltype, node, nnodes;
     int cat_line, cat_node[2];
@@ -65,11 +66,12 @@ int report(struct Map_info *In, int afield, int nfield, int action,const char *f
                 }
 
                 if (nnodes == 0) {
-                    G_warning(_("No point found at x=%g y=%g z=%g for line %d"),
-                              x, y, z, i);
+                    /* this is ok, not every node needs to be
+                     * represented by a point */
+                    G_debug(4, "No point here: %g %g %.g line category: %d", x,
+                            y, z, cat_line);
                 }
-
-                if (nnodes > 1)
+                else if (nnodes > 1)
                     G_warning(_("%d points found: %g %g %g line category: %d"),
                               nnodes, x, y, z, cat_line);
             }
