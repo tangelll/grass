@@ -138,8 +138,6 @@ int main(int argc, char **argv)
 
             nnodes = nodes(In, Out, opt.cats_flag->answer, nfield);
 
-            snprintf(message, sizeof(message),
-                     _("%d new points (nodes) written to output."), nnodes);
         }
         else { /* connect or arcs */
             int narcs;
@@ -163,7 +161,6 @@ int main(int argc, char **argv)
         /* support */
         Vect_build_partial(Out, GV_BUILD_NONE);
         Vect_build(Out);
-
         if (Points)
             Vect_close(Points);
         if (Out)
