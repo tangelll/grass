@@ -172,7 +172,7 @@ int main(int argc, char **argv)
     else if (act == TOOL_TURNTABLE) {
         turntable(&opt);
     }
-    else { /*report*/
+    else { /* report */
         report(In, afield, nfield, act, opt.format->answer);
     }
 
