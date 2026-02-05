@@ -25,6 +25,7 @@
 #include <grass/glocale.h>
 #include "proto.h"
 #include <grass/gjson.h>
+
 int main(int argc, char **argv)
 {
     struct GModule *module;
